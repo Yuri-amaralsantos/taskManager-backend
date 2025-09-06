@@ -5,6 +5,12 @@
     "rootDir": "src",
     "outDir": "dist",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@prisma/*": ["prisma/*"]
+    }
   }
 }
