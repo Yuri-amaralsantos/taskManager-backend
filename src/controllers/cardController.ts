@@ -4,16 +4,14 @@ import * as cardService from "../services/cardService";
 export const updateCard = async (req: Request, res: Response) => {
   const { title, description } = req.body;
   try {
-    // First fetch the card to get boardId
     const card = await cardService.getCardById(Number(req.params.id));
     if (!card) return res.status(404).json({ error: "Card not found" });
 
-    // Update with duplicate check
     const updatedCard = await cardService.updateCard(
       Number(req.params.id),
       title,
       description,
-      card.boardId // Pass boardId to check duplicates
+      card.boardId
     );
     res.json(updatedCard);
   } catch (err: any) {

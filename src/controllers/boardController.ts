@@ -36,7 +36,6 @@ export const updateBoard = async (req: Request, res: Response) => {
     const board = await boardService.updateBoard(Number(req.params.id), name);
     res.json(board);
   } catch (err: any) {
-    // Handles duplicate name error
     res.status(400).json({ error: err.message });
   }
 };
@@ -60,7 +59,6 @@ export const createCard = async (req: Request, res: Response) => {
     );
     res.status(201).json(card);
   } catch (err: any) {
-    // Handles duplicate title in board
     res.status(400).json({ error: err.message });
   }
 };
