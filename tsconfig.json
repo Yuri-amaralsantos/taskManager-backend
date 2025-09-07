@@ -8,9 +8,6 @@
     "strict": true,
     "rootDir": "./",
     "outDir": "./dist",
-    "baseUrl": "./",
-    "paths": {
-      "@prisma/*": ["prisma/*"]
-    }
+    "baseUrl": "./"
   }
 }
