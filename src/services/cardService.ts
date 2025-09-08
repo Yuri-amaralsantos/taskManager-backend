@@ -1,4 +1,5 @@
 import prisma from "../../prisma/prisma";
+import { CardStatus } from "@prisma/client";
 
 export const getCardById = (id: number) => {
   return prisma.card.findUnique({
@@ -10,6 +11,7 @@ export const updateCard = async (
   id: number,
   title: string,
   description: string,
+  status: CardStatus,
   boardId: number
 ) => {
   const existingCard = await prisma.card.findFirst({
@@ -22,7 +24,10 @@ export const updateCard = async (
     );
   }
 
-  return prisma.card.update({ where: { id }, data: { title, description } });
+  return prisma.card.update({
+    where: { id },
+    data: { title, description, status },
+  });
 };
 
 export const deleteCard = (id: number) => {

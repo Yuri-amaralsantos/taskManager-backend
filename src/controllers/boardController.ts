@@ -50,12 +50,13 @@ export const deleteBoard = async (req: Request, res: Response) => {
 };
 
 export const createCard = async (req: Request, res: Response) => {
-  const { title, description } = req.body;
+  const { title, description, status } = req.body;
   try {
     const card = await boardService.createCard(
       Number(req.params.boardId),
       title,
-      description
+      description,
+      status
     );
     res.status(201).json(card);
   } catch (err: any) {

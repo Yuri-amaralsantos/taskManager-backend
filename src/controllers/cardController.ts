@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as cardService from "../services/cardService";
 
 export const updateCard = async (req: Request, res: Response) => {
-  const { title, description } = req.body;
+  const { title, description, status } = req.body;
   try {
     const card = await cardService.getCardById(Number(req.params.id));
     if (!card) return res.status(404).json({ error: "Card not found" });
@@ -11,6 +11,7 @@ export const updateCard = async (req: Request, res: Response) => {
       Number(req.params.id),
       title,
       description,
+      status,
       card.boardId
     );
     res.json(updatedCard);

@@ -1,4 +1,5 @@
 import prisma from "../../prisma/prisma";
+import { CardStatus } from "@prisma/client";
 
 export const createBoard = async (name: string) => {
   const existingBoard = await prisma.board.findUnique({ where: { name } });
@@ -29,12 +30,13 @@ export const deleteBoard = (id: number) => {
 export const createCard = async (
   boardId: number,
   title: string,
-  description: string
+  description: string,
+  status: CardStatus
 ) => {
   const existingCard = await prisma.card.findFirst({
     where: { boardId, title },
   });
   if (existingCard)
     throw new Error("Card with this title already exists in this board");
-  return prisma.card.create({ data: { boardId, title, description } });
+  return prisma.card.create({ data: { boardId, title, description, status } });
 };

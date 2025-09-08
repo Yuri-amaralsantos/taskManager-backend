@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum CardStatus {
+  TODO       
+  DOING      
+  DONE       
+  URGENT     
+}
+
 model Board {
   id    Int    @id @default(autoincrement())
   name  String @unique
@@ -17,6 +24,7 @@ model Card {
   id          Int    @id @default(autoincrement())
   title       String
   description String
+  status      CardStatus @default(TODO)
   boardId     Int
   board       Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
 
