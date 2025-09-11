@@ -1,32 +1,33 @@
-generator client {
-  provider = "prisma-client-js"
-}
+  generator client {
+    provider = "prisma-client-js"
+  }
 
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
+  datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+  }
 
-enum CardStatus {
-  TODO       
-  DOING      
-  DONE       
-  URGENT     
-}
 
-model Board {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  cards Card[]
-}
+  model Board {
+    id    Int    @id @default(autoincrement())
+    name  String @unique
+    lists List[]   
+  }
 
-model Card {
-  id          Int    @id @default(autoincrement())
-  title       String
-  description String
-  status      CardStatus @default(TODO)
-  boardId     Int
-  board       Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  model List {
+    id      Int    @id @default(autoincrement())
+    name    String
+    boardId Int
+    board   Board  @relation(fields: [boardId], references: [id], onDelete: Cascade)
+    cards   Card[]
+  }
 
-  @@unique([boardId, title]) 
-}
+  model Card {
+    id          Int    @id @default(autoincrement())
+    title       String
+    description String
+    listId      Int
+    list        List   @relation(fields: [listId], references: [id], onDelete: Cascade)
+
+    @@unique([listId, title]) 
+  }

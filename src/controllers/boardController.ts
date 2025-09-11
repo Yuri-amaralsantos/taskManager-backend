@@ -1,65 +1,63 @@
-import { Request, Response } from "express";
+import { Router } from "express";
 import * as boardService from "../services/boardService";
+import * as listService from "../services/listService";
 
-export const createBoard = async (req: Request, res: Response) => {
-  const { name } = req.body;
+const router = Router();
+
+router.get("/", async (req, res) => {
+  const boards = await boardService.getBoards();
+  res.json(boards);
+});
+
+router.get("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const board = await boardService.getBoardById(id);
+  if (!board) return res.status(404).json({ error: "Board not found" });
+  res.json(board);
+});
+
+router.post("/", async (req, res) => {
   try {
+    const { name } = req.body;
     const board = await boardService.createBoard(name);
     res.status(201).json(board);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
-};
+});
 
-export const getBoards = async (_req: Request, res: Response) => {
+router.put("/:id", async (req, res) => {
   try {
-    const boards = await boardService.getBoards();
-    res.json(boards);
-  } catch (err: any) {
-    res.status(500).json({ error: "Failed to fetch boards" });
-  }
-};
-
-export const getBoardById = async (req: Request, res: Response) => {
-  try {
-    const board = await boardService.getBoardById(Number(req.params.id));
-    if (!board) return res.status(404).json({ error: "Board not found" });
-    res.json(board);
-  } catch (err: any) {
-    res.status(500).json({ error: "Failed to fetch board" });
-  }
-};
-
-export const updateBoard = async (req: Request, res: Response) => {
-  const { name } = req.body;
-  try {
-    const board = await boardService.updateBoard(Number(req.params.id), name);
+    const id = Number(req.params.id);
+    const { name } = req.body;
+    const board = await boardService.updateBoard(id, name);
     res.json(board);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
-};
+});
 
-export const deleteBoard = async (req: Request, res: Response) => {
-  try {
-    await boardService.deleteBoard(Number(req.params.id));
-    res.json({ deleted: true });
-  } catch (err: any) {
-    res.status(500).json({ error: "Failed to delete board" });
-  }
-};
+router.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  await boardService.deleteBoard(id);
+  res.status(204).send();
+});
 
-export const createCard = async (req: Request, res: Response) => {
-  const { title, description, status } = req.body;
+router.get("/:boardId/lists", async (req, res) => {
+  const boardId = Number(req.params.boardId);
+  const lists = await listService.getListsByBoard(boardId);
+  res.json(lists);
+});
+
+router.post("/:boardId/lists", async (req, res) => {
   try {
-    const card = await boardService.createCard(
-      Number(req.params.boardId),
-      title,
-      description,
-      status
-    );
-    res.status(201).json(card);
+    const boardId = Number(req.params.boardId);
+    const { name } = req.body;
+    const list = await listService.createList(boardId, name);
+    res.status(201).json(list);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
-};
+});
+
+export default router;

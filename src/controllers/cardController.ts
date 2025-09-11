@@ -1,30 +1,30 @@
-import { Request, Response } from "express";
+import { Router } from "express";
 import * as cardService from "../services/cardService";
 
-export const updateCard = async (req: Request, res: Response) => {
-  const { title, description, status } = req.body;
-  try {
-    const card = await cardService.getCardById(Number(req.params.id));
-    if (!card) return res.status(404).json({ error: "Card not found" });
+const router = Router();
 
-    const updatedCard = await cardService.updateCard(
-      Number(req.params.id),
-      title,
-      description,
-      status,
-      card.boardId
-    );
-    res.json(updatedCard);
+router.get("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const card = await cardService.getCardById(id);
+  if (!card) return res.status(404).json({ error: "Card not found" });
+  res.json(card);
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { title, description, listId } = req.body;
+    const card = await cardService.updateCard(id, title, description, listId);
+    res.json(card);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
   }
-};
+});
 
-export const deleteCard = async (req: Request, res: Response) => {
-  try {
-    await cardService.deleteCard(Number(req.params.id));
-    res.json({ deleted: true });
-  } catch (err: any) {
-    res.status(500).json({ error: "Failed to delete card" });
-  }
-};
+router.delete("/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  await cardService.deleteCard(id);
+  res.status(204).send();
+});
+
+export default router;
