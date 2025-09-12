@@ -9,12 +9,22 @@ router.get("/:id", async (req, res) => {
   if (!card) return res.status(404).json({ error: "Card not found" });
   res.json(card);
 });
-
 router.put("/:id", async (req, res) => {
   try {
     const id = Number(req.params.id);
-    const { title, description, listId } = req.body;
-    const card = await cardService.updateCard(id, title, description, listId);
+    const { title, description } = req.body;
+    const card = await cardService.updateCard(id, title, description);
+    res.json(card);
+  } catch (err: any) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+router.patch("/:id/move", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+    const { toListId, position } = req.body;
+    const card = await cardService.moveCard(id, toListId, position);
     res.json(card);
   } catch (err: any) {
     res.status(400).json({ error: err.message });
