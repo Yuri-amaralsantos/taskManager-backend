@@ -10,7 +10,11 @@ export const getBoards = () => {
   return prisma.board.findMany({
     include: {
       lists: {
-        include: { cards: true },
+        include: {
+          cards: {
+            orderBy: { position: "asc" },
+          },
+        },
       },
     },
   });
@@ -21,7 +25,11 @@ export const getBoardById = (id: number) => {
     where: { id },
     include: {
       lists: {
-        include: { cards: true },
+        include: {
+          cards: {
+            orderBy: { position: "asc" },
+          },
+        },
       },
     },
   });

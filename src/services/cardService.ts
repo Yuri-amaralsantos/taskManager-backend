@@ -9,7 +9,7 @@ export const createCard = async (
     where: { listId },
     orderBy: { position: "desc" },
   });
-  const position = lastCard?.position ?? 0;
+  const position = lastCard ? lastCard.position + 1 : 0;
 
   return prisma.card.create({
     data: { listId, title, description, position },

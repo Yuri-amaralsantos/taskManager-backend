@@ -15,14 +15,22 @@ export const createList = async (boardId: number, name: string) => {
 export const getListsByBoard = (boardId: number) => {
   return prisma.list.findMany({
     where: { boardId },
-    include: { cards: true },
+    include: {
+      cards: {
+        orderBy: { position: "asc" },
+      },
+    },
   });
 };
 
 export const getListById = (id: number) => {
   return prisma.list.findUnique({
     where: { id },
-    include: { cards: true },
+    include: {
+      cards: {
+        orderBy: { position: "asc" },
+      },
+    },
   });
 };
 
