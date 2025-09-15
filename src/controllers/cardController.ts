@@ -15,8 +15,12 @@ router.put("/:id", async (req, res) => {
     const { title, description } = req.body;
     const card = await cardService.updateCard(id, title, description);
     res.json(card);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json({ error: "Unexpected error" });
+    }
   }
 });
 
@@ -26,8 +30,12 @@ router.patch("/:id/move", async (req, res) => {
     const { toListId, position } = req.body;
     const card = await cardService.moveCard(id, toListId, position);
     res.json(card);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json({ error: "Unexpected error" });
+    }
   }
 });
 

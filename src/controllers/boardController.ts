@@ -21,8 +21,12 @@ router.post("/", async (req, res) => {
     const { name } = req.body;
     const board = await boardService.createBoard(name);
     res.status(201).json(board);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json({ error: "Unexpected error" });
+    }
   }
 });
 
@@ -32,8 +36,12 @@ router.put("/:id", async (req, res) => {
     const { name } = req.body;
     const board = await boardService.updateBoard(id, name);
     res.json(board);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json({ error: "Unexpected error" });
+    }
   }
 });
 
@@ -55,8 +63,12 @@ router.post("/:boardId/lists", async (req, res) => {
     const { name } = req.body;
     const list = await listService.createList(boardId, name);
     res.status(201).json(list);
-  } catch (err: any) {
-    res.status(400).json({ error: err.message });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      res.status(400).json({ error: err.message });
+    } else {
+      res.status(400).json({ error: "Unexpected error" });
+    }
   }
 });
 
