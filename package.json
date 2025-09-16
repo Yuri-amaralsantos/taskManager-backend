@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev --respawn --loader ts-node/esm src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/server.js"
     "lint": "eslint src --ext .ts,.js --max-warnings=0",
     "lint:fix": "eslint src --ext .ts,.js --fix"
   },
