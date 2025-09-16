@@ -1,4 +1,4 @@
-import prisma from "../../prisma/prisma";
+import prisma from "../prisma/prisma";
 
 export const createList = async (boardId: number, name: string) => {
   const existingList = await prisma.list.findFirst({

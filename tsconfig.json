@@ -6,8 +6,7 @@
     "outDir": "dist",
     "esModuleInterop": true,
     "strict": true,
-    "rootDir": "./",
-    "outDir": "./dist",
     "baseUrl": "./"
-  }
+  },
+  "include": ["src"]
 }
