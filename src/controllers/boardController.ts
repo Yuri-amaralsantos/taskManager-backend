@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as boardService from "../services/boardService";
-import * as listService from "../services/listService";
+import * as boardService from "../services/boardService.js";
+import * as listService from "../services/listService.js";
 
 const router = Router();
 

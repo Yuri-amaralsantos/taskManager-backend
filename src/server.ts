@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 
-import boardController from "./controllers/boardController";
-import listController from "./controllers/listController";
-import cardController from "./controllers/cardController";
+import boardController from "./controllers/boardController.js";
+import listController from "./controllers/listController.js";
+import cardController from "./controllers/cardController.js";
 
 const app = express();
 

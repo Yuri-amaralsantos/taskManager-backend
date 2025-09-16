@@ -1,4 +1,4 @@
-import prisma from "../prisma/prisma";
+import prisma from "../prisma/prisma.js";
 
 export const createBoard = async (name: string) => {
   const existingBoard = await prisma.board.findUnique({ where: { name } });

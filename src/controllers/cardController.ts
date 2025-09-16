@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as cardService from "../services/cardService";
+import * as cardService from "../services/cardService.js";
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import * as listService from "../services/listService";
-import * as cardService from "../services/cardService";
+import * as listService from "../services/listService.js";
+import * as cardService from "../services/cardService.js";
 
 const router = Router();
 
